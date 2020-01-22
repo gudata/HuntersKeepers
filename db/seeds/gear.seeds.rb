@@ -96,8 +96,9 @@ after :playbook do
   },
   ].each do |gear|
     tag_list = gear.delete(:tag_list)
-    g = Gear.find_or_create_by(gear)
+    g = Gear.find_or_initialize_by(name: gear[:name], playbook_id: gear[:playbook_id])
     g.tag_list = tag_list
+    g.update(gear)
     g.save
   end
 end
