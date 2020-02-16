@@ -24,7 +24,19 @@ export default {
   },
   methods: {
     submitMoves() {
-      put('/hunters/${hunter_id}', { 'moves_attributes': this.selectedMoves });
+      fetch(`/hunters/${this.hunter_id}.json`,
+        {
+          credentials: 'same-origin',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-Token': document.head.querySelector("[name='csrf-token']")
+          },
+          method: 'PUT',
+          body: JSON.stringify({ 'id': this.hunter_id,
+                                 'hunter': { 'moves_attributes': this.selectedMoves }})
+        });
     }
   },
   mounted: function() {
